@@ -1,1 +1,5 @@
 /build
+.idea
+Framework/build
+*.a
+*.so
