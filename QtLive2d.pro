@@ -1,9 +1,8 @@
-QT       += core gui opengl openglwidgets
+QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
-
 CONFIG += c++17
-TARGET = Sample
+TARGET = Live2dWidget
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -15,29 +14,38 @@ INCLUDEPATH += $$PWD/thirdParty/stb
 DEPENDPATH += $$PWD/../dll
 
 
-DEFINES += WIN32
-DEFINES += _WINDOWS
-DEFINES += CSM_TARGET_WIN_GL
+# DEFINES += WIN32
+# DEFINES += _WINDOWS
+# DEFINES += CSM_TARGET_WIN_GL
 
 CONFIG += debug_and_release
+
 CONFIG(debug, debug|release){
     message(Debug build)
-    LIBS += -L$$PWD/lib/ -lLive2DCubismCore_MDd
-    LIBS += -L$$PWD/lib/ -lFrameworkd
+    LIBS += -L$$PWD/lib/ -lLive2DCubismCore
+    LIBS += -L$$PWD/lib/ -lFramework
+    LIBS += -lX11 -lXext -lXi
+    QT += x11extras
+    SOURCES += \
+        test/main.cpp \
+        test/MainWindow.cpp #\
+#        test/mouseEventThread.cpp
+    HEADERS += \
+        test/MainWindow.h #\
+#        test/mouseEventThread.cpp
 
 }
 
 CONFIG(release, debug|release){
     message(Release build)
-    LIBS += -L$$PWD/lib/ -lLive2DCubismCore_MD
+    TEMPLATE = lib
+    LIBS += -L$$PWD/lib/ -lLive2DCubismCore
     LIBS += -L$$PWD/lib/ -lFramework
-
+    CONFIG += staticlib
 }
 
 
-LIBS += -lOpenGL32
-LIBS += -lUser32
-LIBS += -lGlu32
+LIBS += -lGL
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -62,7 +70,7 @@ HEADERS += \
     QtLive2d/QLive2dWidget.hpp \
     QtLive2d/TouchManager.hpp \
     QtLive2d/openglhelper.hpp \
-    Sample/mainwindow.h
+#    Sample/mainwindow.h
 
 SOURCES += \
     Framework/src/Rendering/CubismRenderer.cpp \
@@ -80,9 +88,9 @@ SOURCES += \
     QtLive2d/LAppWavFileHandler.cpp \
     QtLive2d/QLive2dWidget.cpp \
     QtLive2d/TouchManager.cpp \
-    Sample/main.cpp \
-    Sample/mainwindow.cpp
+#    Sample/main.cpp \
+#   Sample/mainwindow.cpp
 
-FORMS += \
-    Sample/mainwindow.ui
+#FORMS += \
+#    Sample/mainwindow.ui
 

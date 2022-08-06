@@ -57,6 +57,8 @@
 #define CubismLogError(fmt, ...)
 #endif
 
+#undef _WINDOWS
+
 //------------ LIVE2D NAMESPACE ------------
 namespace Live2D { namespace Cubism { namespace Framework {
 template<class T>

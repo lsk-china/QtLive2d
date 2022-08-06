@@ -1,4 +1,5 @@
-﻿/**
+﻿
+/**
  * Copyright(c) Live2D Inc. All rights reserved.
  *
  * Use of this source code is governed by the Live2D Open Software license
@@ -55,8 +56,7 @@ LAppLive2DManager::LAppLive2DManager()
     , _sceneIndex(0)
 {
     _viewMatrix = new CubismMatrix44();
-
-    ChangeScene(_sceneIndex);
+//    ChangeScene(_sceneIndex);
 }
 
 LAppLive2DManager::~LAppLive2DManager()
@@ -191,6 +191,40 @@ void LAppLive2DManager::ChangeScene(Csm::csmInt32 index)
      * ここでUSE_RENDER_TARGET、USE_MODEL_RENDER_TARGETが定義されている場合
      * 別のレンダリングターゲットにモデルを描画し、描画結果をテクスチャとして別のスプライトに張り付ける。
      */
+    {
+#if defined(USE_RENDER_TARGET)
+        // LAppViewの持つターゲットに描画を行う場合、こちらを選択
+        LAppView::SelectTarget useRenderTarget = LAppView::SelectTarget_ViewFrameBuffer;
+#elif defined(USE_MODEL_RENDER_TARGET)
+        // 各LAppModelの持つターゲットに描画を行う場合、こちらを選択
+        LAppView::SelectTarget useRenderTarget = LAppView::SelectTarget_ModelFrameBuffer;
+#else
+        // デフォルトのメインフレームバッファへレンダリングする(通常)
+        LAppView::SelectTarget useRenderTarget = LAppView::SelectTarget_None;
+#endif
+
+#if defined(USE_RENDER_TARGET) || defined(USE_MODEL_RENDER_TARGET)
+        // モデル個別にαを付けるサンプルとして、もう1体モデルを作成し、少し位置をずらす
+        _models.PushBack(new LAppModel());
+        _models[1]->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
+        _models[1]->GetModelMatrix()->TranslateX(0.2f);
+#endif
+
+        LAppDelegate::GetInstance()->GetView()->SwitchRenderingTarget(useRenderTarget);
+
+        // 別レンダリング先を選択した際の背景クリア色
+        float clearColor[3] = { 1.0f, 1.0f, 1.0f };
+        LAppDelegate::GetInstance()->GetView()->SetRenderTargetClearColor(clearColor[0], clearColor[1], clearColor[2]);
+    }
+}
+
+void LAppLive2DManager::ChangeModel(std::string model) {
+    using namespace std;
+    string modelPath = ResourcesPath + model + "/";
+    string modelJsonName = model + ".model3.json";
+    ReleaseAllModel();
+    _models.PushBack(new LAppModel());
+    _models[0]->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
     {
 #if defined(USE_RENDER_TARGET)
         // LAppViewの持つターゲットに描画を行う場合、こちらを選択

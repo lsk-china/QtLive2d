@@ -1,3 +1,5 @@
+# Original README  as follows: 
+
 <p align="center">
   <img src="logo.png" height="150" />
 </p>
@@ -67,14 +69,14 @@ We provide a sample application called Sample to show you how to use it.
       message(Debug build)
       LIBS += -L$$PWD/lib/ -lLive2DCubismCore_MDd
       LIBS += -L$$PWD/lib/ -lFrameworkd
-
+   
     }
-
+   
     CONFIG(release, debug|release){
       message(Release build)
       LIBS += -L$$PWD/lib/ -lLive2DCubismCore_MD
       LIBS += -L$$PWD/lib/ -lFramework
-
+   
     }
     LIBS += -lOpenGL32
     LIBS += -lUser32
@@ -100,3 +102,9 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+# What am I doing:
+
+I'm trying to making this project support Linux. Thanks to the original author's work ,it's basically available. I'm going to optimize my code, and create a Live2D desktop pet program with it.

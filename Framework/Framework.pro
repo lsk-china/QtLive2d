@@ -8,22 +8,17 @@ CONFIG += staticlib
 INCLUDEPATH += .
 INCLUDEPATH += $$PWD/src
 INCLUDEPATH += $$PWD/../Core/include
-QT       += core opengl openglwidgets
+QT       += core opengl widgets
 
-LIBS += -lGlu32
-LIBS += -lOpenGL32
 DEPENDPATH += $$PWD/../dll
 
 
-DEFINES += WIN32
-DEFINES += _WINDOWS
-DEFINES += CSM_TARGET_WIN_GL
 
 
 CONFIG(debug, debug|release){
     message(Debug build)
     TARGET = Frameworkd
-    LIBS += -L$$PWD/../lib/ -lLive2DCubismCore_MDd
+    LIBS += -L$$PWD/../lib/ -lLive2DCubismCore
     release
 
 }
@@ -31,7 +26,7 @@ CONFIG(debug, debug|release){
 CONFIG(release, debug|release){
     message(Release build)
     TARGET = Framework
-    LIBS += -L$$PWD/../lib/ -lLive2DCubismCore_MD
+    LIBS += -L$$PWD/../lib/ -lLive2DCubismCore
 
 }
 

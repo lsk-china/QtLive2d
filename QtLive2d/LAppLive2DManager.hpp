@@ -10,7 +10,7 @@
 #include <CubismFramework.hpp>
 #include <Math/CubismMatrix44.hpp>
 #include <Type/csmVector.hpp>
-
+#include <string>
 class LAppModel;
 
 /**
@@ -94,6 +94,8 @@ public:
      * @brief   viewMatrixをセットする
      */
     void SetViewMatrix(Live2D::Cubism::Framework::CubismMatrix44* m);
+
+    void ChangeModel(std::string model);
 
 private:
     /**

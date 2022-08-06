@@ -91,6 +91,8 @@ public:
     void mouseMoveEvent(QMouseEvent * event);
     void mousePressEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
+    void rawMouseMoveEvent(QPoint pos);
+    LAppView* _view;                             ///< View情報
 
 private:
     /**
@@ -116,8 +118,8 @@ private:
     LAppAllocator _cubismAllocator;              ///< Cubism SDK Allocator
     Csm::CubismFramework::Option _cubismOption;  ///< Cubism SDK Option
     QLive2dWidget* _window;                         ///< OpenGL ウィンドウ
-    LAppView* _view;                             ///< View情報
-    bool _captured;                              ///< クリックしているか
+
+    bool _captured = false;                              ///< クリックしているか
     float _mouseX;                               ///< マウスX座標
     float _mouseY;                               ///< マウスY座標
     bool _isEnd;                                 ///< APP終了しているか

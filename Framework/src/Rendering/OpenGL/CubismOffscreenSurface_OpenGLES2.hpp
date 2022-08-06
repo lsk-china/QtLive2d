@@ -14,29 +14,32 @@
 #include <float.h>
 
 
-#ifdef CSM_TARGET_ANDROID_ES2
-#include <jni.h>
-#include <errno.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#endif
+//#ifdef CSM_TARGET_ANDROID_ES2
+//#include <jni.h>
+//#include <errno.h>
+//#include <GLES2/gl2.h>
+//#include <GLES2/gl2ext.h>
+//#endif
+//
+//#ifdef CSM_TARGET_IPHONE_ES2
+//#include <OpenGLES/ES2/gl.h>
+//#include <OpenGLES/ES2/glext.h>
+//#endif
+//
+//#if defined(CSM_TARGET_WIN_GL) || defined(CSM_TARGET_LINUX_GL)
+//#include <QOpenGLFunctions>
+//#include "openglhelper.hpp"
+//#endif
+//
+//#ifdef CSM_TARGET_MAC_GL
+//#ifndef CSM_TARGET_COCOS
+//#include <GL/glew.h>
+//#endif
+//#include <OpenGL/gl.h>
+//#endif
 
-#ifdef CSM_TARGET_IPHONE_ES2
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
-#endif
-
-#if defined(CSM_TARGET_WIN_GL) || defined(CSM_TARGET_LINUX_GL)
 #include <QOpenGLFunctions>
 #include "openglhelper.hpp"
-#endif
-
-#ifdef CSM_TARGET_MAC_GL
-#ifndef CSM_TARGET_COCOS
-#include <GL/glew.h>
-#endif
-#include <OpenGL/gl.h>
-#endif
 
 //------------ LIVE2D NAMESPACE ------------
 namespace Live2D { namespace Cubism { namespace Framework { namespace Rendering {

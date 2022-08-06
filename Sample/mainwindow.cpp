@@ -4,7 +4,6 @@
 #include "../QtLive2d/LAppLive2DManager.hpp"
 #include "../QtLive2d/LAppDefine.hpp"
 #include <QLabel>
-#include <Windows.h>
 
 using namespace LAppDefine;
 

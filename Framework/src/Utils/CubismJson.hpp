@@ -12,6 +12,9 @@
 #include "Type/csmMap.hpp"
 #include "Type/csmString.hpp"
 
+#undef CSM_TARGET_WIN_GL
+#undef _MSC_VER
+
 //------------ LIVE2D NAMESPACE ------------
 namespace Live2D { namespace Cubism { namespace Framework { namespace Utils {
 class Value;
