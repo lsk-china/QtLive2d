@@ -22,8 +22,27 @@ QLive2dWidget::QLive2dWidget(QWidget *parent):
 
     // the OpenGL in OpenGLWidget won't scale by HDPI setting, we need to scale manually.
     ratio = parent->devicePixelRatio();
+    calcRatios();
     LAppLive2DManager::GetInstance()->OnUpdate();
 }
+
+void QLive2dWidget::calcRatios() {
+    QWidget* parent = this->parentWidget();
+    if (parent != nullptr) {
+        QSize parentSize = parent->size();
+        QSize thisSize = this->size();
+        ratio_x = thisSize.width() / parentSize.width();
+        ratio_y = thisSize.height() / parentSize.height();
+        ratio_x *= ratio;
+        ratio_y *= ratio;
+    } else {
+        ratio_x = ratio_y = ratio;
+    }
+    cout << "ratio_x: " << ratio_x << endl;
+    cout << "ratio_y: " << ratio_y << endl;
+    cout << "ratio: " << ratio << endl;
+}
+
 void QLive2dWidget::initializeGL()
 {
     this->makeCurrent();

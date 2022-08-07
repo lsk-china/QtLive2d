@@ -158,8 +158,8 @@ void LAppDelegate::InitializeCubism()
 }
 
 void LAppDelegate::mouseMoveEvent(QMouseEvent * event){
-    _mouseX = static_cast<float>(event->pos().x()*QLive2dWidget::ratio);
-    _mouseY = static_cast<float>(event->pos().y()*QLive2dWidget::ratio);
+    _mouseX = static_cast<float>(event->pos().x()*QLive2dWidget::ratio_x);
+    _mouseY = static_cast<float>(event->pos().y()*QLive2dWidget::ratio_y);
 //    _mouseX= static_cast<float>(_mouseX*2.0/_screenWidth-1.0);
 //    _mouseY= static_cast<float>(1.0-_mouseY*2.0/_screenHeight);
         if (!_captured)
@@ -175,8 +175,8 @@ void LAppDelegate::mouseMoveEvent(QMouseEvent * event){
 }
 
 void LAppDelegate::mousePressEvent(QMouseEvent * event){
-    _mouseX = static_cast<float>(event->pos().x()*QLive2dWidget::ratio);
-    _mouseY = static_cast<float>(event->pos().y()*QLive2dWidget::ratio);
+    _mouseX = static_cast<float>(event->pos().x()*QLive2dWidget::ratio_x);
+    _mouseY = static_cast<float>(event->pos().y()*QLive2dWidget::ratio_y);
 //    _mouseX= static_cast<float>(_mouseX*2.0/_screenWidth-1.0);
 //    _mouseY= static_cast<float>(1.0-_mouseY*2.0/_screenHeight);
 
@@ -194,8 +194,8 @@ void LAppDelegate::mousePressEvent(QMouseEvent * event){
 }
 
 void LAppDelegate::rawMouseMoveEvent(QPoint pos) {
-    _mouseX = static_cast<float>(pos.x() * QLive2dWidget::ratio);
-    _mouseY = static_cast<float>(pos.y() * QLive2dWidget::ratio);
+    _mouseX = static_cast<float>(pos.x());
+    _mouseY = static_cast<float>(pos.y());
     if (_view == NULL) {
         return;
     }
@@ -203,8 +203,8 @@ void LAppDelegate::rawMouseMoveEvent(QPoint pos) {
 }
 
 void LAppDelegate::mouseReleaseEvent(QMouseEvent * event){
-    _mouseX = static_cast<float>(event->pos().x()*QLive2dWidget::ratio);
-    _mouseY = static_cast<float>(event->pos().y()*QLive2dWidget::ratio);
+    _mouseX = static_cast<float>(event->pos().x()*QLive2dWidget::ratio_x);
+    _mouseY = static_cast<float>(event->pos().y()*QLive2dWidget::ratio_y);
 //    _mouseX= static_cast<float>(_mouseX*2.0/_screenWidth-1.0);
 //    _mouseY= static_cast<float>(1.0-_mouseY*2.0/_screenHeight);
         if (_view == NULL)

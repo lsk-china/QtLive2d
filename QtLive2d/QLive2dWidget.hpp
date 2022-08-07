@@ -3,6 +3,10 @@
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QElapsedTimer>
+#include <QGuiApplication>
+#include <QScreen>
+#include <QList>
+#include <iostream>
 
 // #define QCOREEVENT_H // Mask qcoreevents.h to prevent the confusing errors from qcoreevent.h. What the fuck is happening to the MOC Compiler???
                      // Mask this header will cause some problems when using qevent. I'll remove it as soon as I find the mistake lead to these errors.
@@ -24,6 +28,8 @@ public:
     void mouseMove(QPoint rel);
 
     inline static float ratio;
+    inline static float ratio_x = 1;
+    inline static float ratio_y = 1;
     inline static QElapsedTimer elapsedTimer;
 
 protected:
@@ -33,6 +39,8 @@ protected:
 
 private slots:
     void updateMotions();
+private:
+    void calcRatios();
 
 signals:
     void initialized(QLive2dWidget *wid);
