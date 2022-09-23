@@ -218,9 +218,9 @@ void LAppLive2DManager::ChangeScene(Csm::csmInt32 index)
     }
 }
 
-void LAppLive2DManager::ChangeModel(std::string model) {
+void LAppLive2DManager::ChangeModel(std::string model, std::string resourceDir) {
     using namespace std;
-    string modelPath = ResourcesPath + model + "/";
+    string modelPath = resourceDir + model + "/";
     string modelJsonName = model + ".model3.json";
     ReleaseAllModel();
     _models.PushBack(new LAppModel());

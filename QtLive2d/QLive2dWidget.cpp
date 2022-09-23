@@ -91,10 +91,10 @@ void QLive2dWidget::mouseMove(QPoint rel) {
 
 void QLive2dWidget::setModel(string model) {
     LAppLive2DManager::GetInstance()->OnUpdate();
-    LAppLive2DManager::GetInstance()->ChangeModel(model);
+    LAppLive2DManager::GetInstance()->ChangeModel(model, this->resourceDir);
 }
 void QLive2dWidget::setResDir(string resDir) {
-    LAppDefine::ResourcesPath = resDir.c_str();
+    this->resourceDir = resDir;
 }
 
 void QLive2dWidget::mouseMoveEvent(QMouseEvent * event){

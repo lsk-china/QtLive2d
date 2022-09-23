@@ -95,7 +95,7 @@ public:
      */
     void SetViewMatrix(Live2D::Cubism::Framework::CubismMatrix44* m);
 
-    void ChangeModel(std::string model);
+    void ChangeModel(std::string model, std::string resourcePath);
 
 private:
     /**
