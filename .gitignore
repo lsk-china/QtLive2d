@@ -3,3 +3,4 @@
 Framework/build
 *.a
 *.so
+/Core/
