@@ -1,0 +1,3 @@
+[submodule "CubismNativeFramework"]
+	path = CubismNativeFramework
+	url = git@github.com:lsk-china/CubismNativeFramework.git

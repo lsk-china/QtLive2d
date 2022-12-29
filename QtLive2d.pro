@@ -9,7 +9,7 @@ TARGET = Live2dWidget
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 INCLUDEPATH += $$PWD/Core/include
-INCLUDEPATH += $$PWD/Framework/src
+INCLUDEPATH += $$PWD/CubismNativeFramework/src
 INCLUDEPATH += $$PWD/thirdParty/stb
 DEPENDPATH += $$PWD/../dll
 
@@ -53,10 +53,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    Framework/src/Rendering/CubismRenderer.hpp \
-    Framework/src/Rendering/OpenGL/CubismOffscreenSurface_OpenGLES2.hpp \
-    Framework/src/Rendering/OpenGL/CubismRenderer_OpenGLES2.hpp \
-    Framework/src/Rendering/OpenGL/openglhelper.hpp \
+    CubismNativeFramework/src/Rendering/CubismRenderer.hpp \
+    CubismNativeFramework/src/Rendering/OpenGL/CubismOffscreenSurface_OpenGLES2.hpp \
+    CubismNativeFramework/src/Rendering/OpenGL/CubismRenderer_OpenGLES2.hpp \
+    CubismNativeFramework/src/Rendering/OpenGL/openglhelper.hpp \
     QtLive2d/LAppAllocator.hpp \
     QtLive2d/LAppDefine.hpp \
     QtLive2d/LAppDelegate.hpp \
@@ -73,9 +73,9 @@ HEADERS += \
 #    Sample/mainwindow.h
 
 SOURCES += \
-    Framework/src/Rendering/CubismRenderer.cpp \
-    Framework/src/Rendering/OpenGL/CubismOffscreenSurface_OpenGLES2.cpp \
-    Framework/src/Rendering/OpenGL/CubismRenderer_OpenGLES2.cpp \
+    CubismNativeFramework/src/Rendering/CubismRenderer.cpp \
+    CubismNativeFramework/src/Rendering/OpenGL/CubismOffscreenSurface_OpenGLES2.cpp \
+    CubismNativeFramework/src/Rendering/OpenGL/CubismRenderer_OpenGLES2.cpp \
     QtLive2d/LAppAllocator.cpp \
     QtLive2d/LAppDefine.cpp \
     QtLive2d/LAppDelegate.cpp \
