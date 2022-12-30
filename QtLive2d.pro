@@ -41,9 +41,8 @@ CONFIG(release, debug|release){
     TEMPLATE = lib
     LIBS += -L$$PWD/lib/ -lLive2DCubismCore
     LIBS += -L$$PWD/lib/ -lFramework
-    CONFIG += staticlib
+#    CONFIG += staticlib
 }
-
 
 LIBS += -lGL
 
