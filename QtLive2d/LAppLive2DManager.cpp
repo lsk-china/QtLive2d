@@ -222,6 +222,7 @@ void LAppLive2DManager::ChangeModel(std::string model, std::string resourceDir) 
     using namespace std;
     string modelPath = resourceDir + model + "/";
     string modelJsonName = model + ".model3.json";
+    cout << modelPath << "/" << modelJsonName << endl;
     ReleaseAllModel();
     _models.PushBack(new LAppModel());
     _models[0]->LoadAssets(modelPath.c_str(), modelJsonName.c_str());

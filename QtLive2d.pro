@@ -22,8 +22,8 @@ CONFIG += debug_and_release
 
 CONFIG(debug, debug|release){
     message(Debug build)
-    LIBS += -L$$PWD/lib/ -lLive2DCubismCore
-    LIBS += -L$$PWD/lib/ -lFramework
+    LIBS += -lLive2DCubismCore
+    LIBS += -lFramework
     LIBS += -lX11 -lXext -lXi
     QT += x11extras
     SOURCES += \
@@ -39,9 +39,10 @@ CONFIG(debug, debug|release){
 CONFIG(release, debug|release){
     message(Release build)
     TEMPLATE = lib
-    LIBS += -L$$PWD/lib/ -lLive2DCubismCore
-    LIBS += -L$$PWD/lib/ -lFramework
-#    CONFIG += staticlib
+    LIBS += -lLive2DCubismCore
+    LIBS += -lFramework
+    LIBS += -L$$PWD/lib
+    CONFIG += staticlib
 }
 
 LIBS += -lGL

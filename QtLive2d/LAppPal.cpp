@@ -31,7 +31,7 @@ csmByte* LAppPal::LoadFileAsBytes(const string filePath, csmSizeInt* outSize)
 {
     //filePath;//
     const char* path = filePath.c_str();
-
+    PrintLog("FilePath: %s", path);
     int size = 0;
     struct stat statBuf;
     if (stat(path, &statBuf) == 0)
