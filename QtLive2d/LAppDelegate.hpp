@@ -92,6 +92,8 @@ public:
     void mousePressEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
     void rawMouseMoveEvent(QPoint pos);
+    void rawMousePressEvent(QPoint pos);
+    void rawMouseReleaseEvent(QPoint pos);
     LAppView* _view;                             ///< View情報
 
 private:

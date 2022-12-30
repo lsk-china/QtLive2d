@@ -202,6 +202,24 @@ void LAppDelegate::rawMouseMoveEvent(QPoint pos) {
     _view->OnTouchesMoved(_mouseX, _mouseY);
 }
 
+void LAppDelegate::rawMouseReleaseEvent(QPoint pos) {
+    _mouseX = static_cast<float>(pos.x());
+    _mouseY = static_cast<float>(pos.y());
+    if (_view == NULL) {
+        return;
+    }
+    _view->OnTouchesEnded(_mouseX, _mouseY);
+}
+
+void LAppDelegate::rawMousePressEvent(QPoint pos) {
+    _mouseX = static_cast<float>(pos.x());
+    _mouseY = static_cast<float>(pos.y());
+    if (_view == NULL) {
+        return;
+    }
+    _view->OnTouchesBegan(_mouseX, _mouseY);
+}
+
 void LAppDelegate::mouseReleaseEvent(QMouseEvent * event){
     _mouseX = static_cast<float>(event->pos().x()*QLive2dWidget::ratio_x);
     _mouseY = static_cast<float>(event->pos().y()*QLive2dWidget::ratio_y);
