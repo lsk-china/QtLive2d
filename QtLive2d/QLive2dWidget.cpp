@@ -106,3 +106,9 @@ void QLive2dWidget::mousePressEvent(QMouseEvent * event){
 void QLive2dWidget::mouseReleaseEvent(QMouseEvent * event){
     LAppDelegate::GetInstance()->mouseReleaseEvent(event);
 }
+void QLive2dWidget::mousePress(QPoint rel) {
+    LAppDelegate::GetInstance()->rawMousePressEvent(rel);
+}
+void QLive2dWidget::mouseRelease(QPoint rel) {
+    LAppDelegate::GetInstance()->rawMouseReleaseEvent(rel);
+}
