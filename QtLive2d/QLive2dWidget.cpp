@@ -90,8 +90,10 @@ void QLive2dWidget::mouseMove(QPoint rel) {
 }
 
 void QLive2dWidget::setModel(string model) {
-    LAppLive2DManager::GetInstance()->OnUpdate();
+    this->clear();
     LAppLive2DManager::GetInstance()->ChangeModel(model, this->resourceDir);
+    LAppLive2DManager::GetInstance()->OnUpdate();
+    LAppDelegate::GetInstance()->Run();
 }
 void QLive2dWidget::setResDir(string resDir) {
     this->resourceDir = resDir;

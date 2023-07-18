@@ -244,12 +244,16 @@ void LAppLive2DManager::ChangeModel(std::string model, std::string resourceDir) 
         _models[1]->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
         _models[1]->GetModelMatrix()->TranslateX(0.2f);
 #endif
+        float clearColor[3] = {1.0f, 1.0f, 1.0f};
 
         LAppDelegate::GetInstance()->GetView()->SwitchRenderingTarget(useRenderTarget);
 
-        // 別レンダリング先を選択した際の背景クリア色
-        float clearColor[3] = { 1.0f, 1.0f, 1.0f };
-        LAppDelegate::GetInstance()->GetView()->SetRenderTargetClearColor(clearColor[0], clearColor[1], clearColor[2]);
+        if (useRenderTarget) {
+            LAppDelegate::GetInstance()->GetView()->SwitchRenderingTarget(useRenderTarget);
+            // 背景クリア色
+            LAppDelegate::GetInstance()->GetView()->SetRenderTargetClearColor(clearColor[0], clearColor[1],
+                                                                              clearColor[2]);
+        }
     }
 }
 

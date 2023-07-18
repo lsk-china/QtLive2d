@@ -26,13 +26,10 @@ CONFIG(debug, debug|release){
     LIBS += -lFramework
     LIBS += -lX11 -lXext -lXi
     QT += x11extras
-    SOURCES += \
-        test/main.cpp \
-        test/MainWindow.cpp #\
-#        test/mouseEventThread.cpp
-    HEADERS += \
-        test/MainWindow.h #\
-#        test/mouseEventThread.cpp
+    SOURCES += Sample/main.cpp\
+            Sample/mainwindow.cpp
+    HEADERS += Sample/mainwindow.h
+    FORMS += Sample/mainwindow.ui
 
 }
 
