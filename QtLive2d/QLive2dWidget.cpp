@@ -7,6 +7,10 @@
 #include "LAppDefine.hpp"
 #include "LAppLive2DManager.hpp"
 #include <QDebug>
+#include <Motion/ACubismMotion.hpp>
+#include <Type/csmMap.hpp>
+
+Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   _expressions;
 
 QLive2dWidget::QLive2dWidget(QWidget *parent):
     QOpenGLWidget(parent)
@@ -59,9 +63,6 @@ void QLive2dWidget::initializeGL()
     LAppLive2DManager::GetInstance();
     LAppDelegate::GetInstance()->_view->OnTouchesBegan(0, 0);
     this->initialized(this);
-    // For debug
-    this->setResDir("/data/Live2dModels/");
-    this->setModel("guiz");
 }
 void QLive2dWidget::resizeGL(int width, int height)
 {
@@ -94,6 +95,7 @@ void QLive2dWidget::mouseMove(QPoint rel) {
 void QLive2dWidget::setModel(string model) {
     this->clear();
     LAppLive2DManager::GetInstance()->ChangeModel(model, this->resourceDir);
+    _expressions = LAppLive2DManager::GetInstance()->GetExpressions();
     LAppLive2DManager::GetInstance()->OnUpdate();
     LAppDelegate::GetInstance()->Run();
 }
@@ -115,4 +117,16 @@ void QLive2dWidget::mousePress(QPoint rel) {
 }
 void QLive2dWidget::mouseRelease(QPoint rel) {
     LAppDelegate::GetInstance()->rawMouseReleaseEvent(rel);
+}
+
+void QLive2dWidget::changeExpressions(QString name) {
+
+}
+
+QList<QString> QLive2dWidget::getExpressions() {
+    QList<QString> result;
+    for (int i = 0; i < _expressions.GetSize(); i++) {
+        result.push_back(QString(_expressions.get(i).First.GetRawString()));
+    }
+    return result;
 }

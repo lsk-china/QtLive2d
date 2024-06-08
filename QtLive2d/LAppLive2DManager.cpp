@@ -222,14 +222,11 @@ void LAppLive2DManager::ChangeModel(std::string model, std::string resourceDir) 
     using namespace std;
     string modelPath = resourceDir + model + "/";
     string modelJsonName = model + ".model3.json";
-    cout << modelPath << "/" << modelJsonName << endl;
     ReleaseAllModel();
     _models.PushBack(new LAppModel());
     _models[0]->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
     LAppModel *appModel = _models[0];
-    Csm::ICubismModelSetting *setting = appModel->GetModelSetting();
-    csmInt32 expCount = setting->GetExpressionCount();
-    std::cout << "Expressions:" << expCount << std::endl;
+    this->_expressions = appModel->getExpressions();
     {
 #if defined(USE_RENDER_TARGET)
         // LAppViewの持つターゲットに描画を行う場合、こちらを選択

@@ -5,17 +5,27 @@
 #ifndef QTLIVE2D_MAINWINDOW_H
 #define QTLIVE2D_MAINWINDOW_H
 
-#define QCOREEVENT_H
-#define QVARIANT_H
-#define QTEXTSTREAM_H
-
 #include <QMainWindow>
 #include <QWidget>
 #include <QtX11Extras/QX11Info>
 #include <QPoint>
+#include "../QtLive2d/QLive2dWidget.hpp"
+#undef Bool
+#undef CursorShape
+#undef Expose
+#undef KeyPress
+#undef KeyRelease
+#undef FocusIn
+#undef FocusOut
+#undef FontChange
+#undef None
+#undef Status
+#undef Unsorted
+#undef min
+#undef max
 #include <X11/extensions/shape.h>
 #include "mouseEventThread.h"
-#include "../QtLive2d/QLive2dWidget.hpp"
+
 #include "iostream"
 using namespace std;
 

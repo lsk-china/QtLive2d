@@ -1,63 +1,135 @@
 #include "mouseEventThread.h"
 
-MouseEventThread::MouseEventThread(QRect screenRect, int winID, QObject *parent) : QThread(parent) {
-    rootWindow = XRootWindow(display, 0);
-    int event, error;
-    XQueryExtension(display, "XInputExtension", &xi_opcode, &event, &error);
-    unsigned char mask_bytes[(XI_LASTEVENT + 7) / 8] = {0};
-    XISetMask(mask_bytes, XI_RawMotion);
-    XIEventMask evmasks[1];
-    evmasks[0].deviceid = XIAllMasterDevices;
-    evmasks[0].mask_len = sizeof(mask_bytes);
-    evmasks[0].mask = mask_bytes;
-    XISelectEvents(display, rootWindow, evmasks, 1);;
-    canvasRect = new QRect(screenRect.height() - 300,
-                           0,
-                           300,
-                           300);
-    this->appWindow = (Window) winID;
+MouseEventThread::MouseEventThread(QRect screenRect, int winID, double sensibility, QObject *parent) : QThread(parent) {
+    connect(this, &QThread::finished, this, &MouseEventThread::cleanup);
+    controlDisplay = XOpenDisplay(NULL);
+    rootWindow = XRootWindow(controlDisplay, 0);
+    appWindow = winID;
+    dataDisplay = XOpenDisplay(NULL);
+    if (!controlDisplay || !dataDisplay) {
+        qFatal("Cannot open display!");
+    }
+    XSynchronize(controlDisplay, 1);
+
+    int major, minor;
+    if (!XRecordQueryVersion (controlDisplay, &major, &minor)) {
+        qFatal("RECORD extension not supported on this X server!");
+    }
+    qInfo("Version of record extension: %d.%d", major, minor);
+    this->sensibility = sensibility;
 }
 
 void MouseEventThread::run() {
-    XEvent ev;
+    XRecordClientSpec  rcs;
+    rr = XRecordAllocRange();
+    if (!rr) {
+        qFatal("Could not alloc record range object!");
+    }
+
+    rr->device_events.first = 2;
+    rr->device_events.last = MotionNotify;
+    rcs = XRecordAllClients;
+
+    ctx = XRecordCreateContext(controlDisplay, 0, &rcs, 1, &rr, 1);
+    if (!ctx) {
+        qFatal("Could not create a record context!");
+    }
+    XRecordEnableContext(dataDisplay, ctx, callback, (XPointer) this);
     while (true) {
-        XNextEvent(display, &ev);
-        if(ev.xcookie.type != GenericEvent || ev.xcookie.extension != xi_opcode) {
-            continue;
-        }
-        XGetEventData(display, &ev.xcookie);
-        if (ev.xcookie.evtype != XI_RawMotion) {
-            XFreeEventData(display, &ev.xcookie);
-            continue;
-        }
-        XFreeEventData(display, &ev.xcookie);
-        Window root_return, child_return;
-        int root_x_return, root_y_return;
-        int win_x_return, win_y_return;
-        unsigned int mask_return;
-        int retval = XQueryPointer(display, rootWindow, &root_return, &child_return,
-                                           &root_x_return, &root_y_return,
-                                           &win_x_return, &win_y_return,
-                                           &mask_return);
-        if (!retval) {
-            continue;
-        }
-        int local_x, local_y;
-        XTranslateCoordinates(display, rootWindow, appWindow,
-                              root_x_return, root_y_return,
-                              &local_x, &local_y, &child_return);
-        QPoint cursorPoint(local_x, local_y);
-        QPoint absPosition(root_x_return, root_y_return);
-//        if (canvasRect->contains(cursorPoint)) {
-//            emit mouseEnter();
-//        } else {
-//            emit mouseLeave();
-//        }
-        emit mouseEvent(cursorPoint, absPosition);
-        QThread::msleep(100);
+        XRecordProcessReplies(dataDisplay);
     }
 }
 
+
 MouseEventThread::~MouseEventThread() {
-    XCloseDisplay(display);
+}
+
+void MouseEventThread::callback(XPointer closure, XRecordInterceptData *hook) {
+    ((MouseEventThread *) closure)->processEvent(hook);
+}
+
+void MouseEventThread::processEvent(XRecordInterceptData *hook) {
+    if (hook->category != XRecordFromServer) {
+        XRecordFreeData (hook);
+        return;
+    }
+    XRecordDatum *data = (XRecordDatum*) hook->data;
+    unsigned char buttonCode = data->event.u.u.detail;
+    int absX, absY, relX, relY;
+    int eventType = data->type;
+    switch (eventType) {
+        case ButtonPress:
+            if (buttonCode == 1) {
+                if (queryCursor(relX, relY, absX, absY)) {
+                    break;
+                }
+                emit mousePress(QPoint(relX * sensibility, relY * sensibility), QPoint(relX, relY));
+            }
+            break;
+        case ButtonRelease:
+            if (buttonCode == 1) {
+                if (queryCursor(relX, relY, absX, absY)) {
+                    break;
+                }
+                emit mouseRelease(QPoint(relX * sensibility, relY * sensibility), QPoint(relX, relY));
+            }
+            break;
+        case MotionNotify:
+            if (queryCursor(relX, relY, absX, absY)) {
+                break;
+            }
+//            dx = lastx - relX;
+//            dy = lasty - relY;
+//            lastx = relX, lasty = relY;
+//            if (abs(dx) < 10 || abs(dy) < 10) {
+//                qDebug() << "motion too small, ignoring...";
+//                break;
+//            }
+            emit mouseEvent(QPoint(relX * sensibility, relY * sensibility), QPoint(relX, relY));
+            break;
+    }
+    XRecordFreeData (hook);
+}
+
+int MouseEventThread::queryCursor(int &relX, int &relY, int &absX, int &absY) {
+    Window root_return, child_return;
+    int root_x_return, root_y_return;
+    int win_x_return, win_y_return;
+    unsigned int mask_return;
+    int retval = XQueryPointer(controlDisplay, rootWindow, &root_return, &child_return,
+                               &root_x_return, &root_y_return,
+                               &win_x_return, &win_y_return,
+                               &mask_return);
+    if (retval != 1) {
+        return 1;
+    }
+    int local_x, local_y;
+    XTranslateCoordinates(controlDisplay, rootWindow, appWindow,
+                          root_x_return, root_y_return,
+                          &local_x, &local_y, &child_return);
+    relX = local_x;
+    relY = local_y;
+    absX = root_x_return;
+    absY = root_y_return;
+    return 0;
+}
+
+void MouseEventThread::cleanup() {
+    if (ctx) {
+        XRecordDisableContext(controlDisplay, ctx);
+        XRecordFreeContext(controlDisplay, ctx);
+    }
+    if (rr) {
+        XFree(rr);
+    }
+    if (controlDisplay) {
+        XCloseDisplay(controlDisplay);
+    }
+    if (dataDisplay) {
+        XCloseDisplay(dataDisplay);
+    }
+}
+
+void MouseEventThread::setMouseSensibility(double mouseSensibility) {
+    this->sensibility = sensibility;
 }

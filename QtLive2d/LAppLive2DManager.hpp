@@ -11,6 +11,9 @@
 #include <Math/CubismMatrix44.hpp>
 #include <Type/csmVector.hpp>
 #include <string>
+#include <Motion/ACubismMotion.hpp>
+#include "Type/csmMap.hpp"
+
 class LAppModel;
 
 /**
@@ -97,6 +100,8 @@ public:
 
     void ChangeModel(std::string model, std::string resourcePath);
 
+    inline Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   GetExpressions() { return this->_expressions; }
+
 private:
     /**
     * @brief  コンストラクタ
@@ -111,4 +116,5 @@ private:
     Csm::CubismMatrix44*        _viewMatrix; ///< モデル描画に用いるView行列
     Csm::csmVector<LAppModel*>  _models; ///< モデルインスタンスのコンテナ
     Csm::csmInt32               _sceneIndex; ///< 表示するシーンのインデックス値
+    Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   _expressions;
 };

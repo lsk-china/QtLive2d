@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 //    this->live2DWidget->setResDir("Resources");
 //    this->live2DWidget->setModel("WY6");
 //    this->live2DWidget->setAttribute(Qt::WA_TransparentForMouseEvents);
-    MouseEventThread *th = new MouseEventThread(this->geometry(), this->winId(), this);
+    MouseEventThread *th = new MouseEventThread(this->geometry(), this->winId(), 0.1, this);
     connect(th, SIGNAL(mouseEvent(QPoint, QPoint)), this, SLOT(mouseEvent(QPoint, QPoint)), Qt::QueuedConnection);
     th->start();
 }
@@ -28,8 +28,8 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::initialized(QLive2dWidget *wid) {
-    wid->setResDir("/data/Live2dModels");
-    wid->setModel("WY6");
+    wid->setResDir("/data/Live2dModels/");
+    wid->setModel("guiz");
     cout<<"Initialize finished";
 }
 

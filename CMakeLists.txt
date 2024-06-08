@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(Live2dWidget)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -56,9 +56,7 @@ set(PROJECT_SOURCES
 )
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
-    set(PROJECT_SOURCES ${PROJECT_SOURCES} Sample/main.cpp Sample/mainwindow.cpp)
-    set(PROJECT_HEADERS ${PROJECT_HEADERS} Sample/mainwindow.h Sample/ui_mainwindow.h)
-    add_executable(MainWindow ${PROJECT_SOURCES} Sample/main.cpp Sample/mainwindow.cpp ${PROJECT_HEADERS} Sample/mainwindow.h Sample/ui_mainwindow.h)
+    add_executable(MainWindow ${PROJECT_SOURCES} test/main.cpp test/MainWindow.cpp test/mouseEventThread.cpp test/MainWindow.h test/mouseEventThread.h)
     target_link_libraries(MainWindow
             Qt5::Core
             Qt5::Gui
@@ -66,6 +64,7 @@ if (CMAKE_BUILD_TYPE STREQUAL Debug)
             Qt5::OpenGL
             -lX11
             -lXext
+            -lXtst
             -lLive2dWidget
             -lGL
             -lFramework

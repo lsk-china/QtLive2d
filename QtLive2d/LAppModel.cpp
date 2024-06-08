@@ -20,6 +20,7 @@
 #include "LAppPal.hpp"
 #include "LAppTextureManager.hpp"
 #include "LAppDelegate.hpp"
+#include <filesystem>
 
 using namespace Live2D::Cubism::Framework;
 using namespace Live2D::Cubism::Framework::DefaultParameterId;
@@ -132,7 +133,6 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
     if (_modelSetting->GetExpressionCount() > 0)
     {
         const csmInt32 count = _modelSetting->GetExpressionCount();
-        std::cout << "total " << count << " expressions: " << endl;
         for (csmInt32 i = 0; i < count; i++)
         {
             csmString name = _modelSetting->GetExpressionName(i);
@@ -151,6 +151,50 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
             _expressions[name] = motion;
 
             DeleteBuffer(buffer, path.GetRawString());
+        }
+    }
+
+    // Try to load expressions that are not included in the json model
+    std::string expDir = std::string(_modelHomeDir.GetRawString()) + "exp/";
+    if (std::filesystem::exists(expDir) && std::filesystem::is_directory(expDir)) {
+        for (const auto &entry : std::filesystem::directory_iterator(expDir)) {
+            if (entry.path().string().ends_with(".exp3.json")) {
+                std::string filePath = entry.path().string();
+                std::string name1 = filePath.substr(0, filePath.find_first_of('.'));
+                csmString name = name1.substr(name1.find_last_of('/') + 1, name1.size() - 1).c_str();
+                csmString path = filePath.c_str();
+                buffer = CreateBuffer(path.GetRawString(), &size);
+                ACubismMotion* motion = LoadExpression(buffer, size, name.GetRawString());
+
+                if (_expressions[name] != NULL)
+                {
+                    ACubismMotion::Delete(_expressions[name]);
+                    _expressions[name] = NULL;
+                }
+                _expressions[name] = motion;
+
+                DeleteBuffer(buffer, path.GetRawString());
+            }
+        }
+    } else {
+        for (const auto &entry : std::filesystem::directory_iterator(std::string(_modelHomeDir.GetRawString()))) {
+            if (entry.path().string().ends_with(".exp3.json")) {
+                std::string filePath = entry.path().string();
+                std::string name1 = filePath.substr(0, filePath.find_first_of('.'));
+                csmString name = name1.substr(name1.find_last_of('/') + 1, name1.size() - 1).c_str();
+                csmString path = filePath.c_str();
+                buffer = CreateBuffer(path.GetRawString(), &size);
+                ACubismMotion* motion = LoadExpression(buffer, size, name.GetRawString());
+
+                if (_expressions[name] != NULL)
+                {
+                    ACubismMotion::Delete(_expressions[name]);
+                    _expressions[name] = NULL;
+                }
+                _expressions[name] = motion;
+
+                DeleteBuffer(buffer, path.GetRawString());
+            }
         }
     }
 

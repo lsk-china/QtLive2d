@@ -114,11 +114,11 @@ public:
      */
     Csm::Rendering::CubismOffscreenFrame_OpenGLES2& GetRenderBuffer();
 
-    Csm::csmMap<Csm::csmString, Csm::ACubismMotion*> getMotions();
-
     Csm::csmMap<Csm::csmString, Csm::ACubismMotion*> getExpressions();
 
-    inline Csm::ICubismModelSetting* GetModelSetting() { return this->_modelSetting; }
+    inline Csm::csmInt32 getExpressionCount() { return this->_expressions.GetSize(); }
+
+
 
 protected:
     /**
