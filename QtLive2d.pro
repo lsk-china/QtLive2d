@@ -23,7 +23,7 @@ CONFIG += debug_and_release
 CONFIG(debug, debug|release){
     message(Debug build)
     LIBS += -lLive2DCubismCore
-    LIBS += -lFramework
+    LIBS += -L. -lFramework
     LIBS += -lX11 -lXext -lXi
     QT += x11extras
     SOURCES += Sample/main.cpp\

@@ -114,6 +114,12 @@ public:
      */
     Csm::Rendering::CubismOffscreenFrame_OpenGLES2& GetRenderBuffer();
 
+    Csm::csmMap<Csm::csmString, Csm::ACubismMotion*> getMotions();
+
+    Csm::csmMap<Csm::csmString, Csm::ACubismMotion*> getExpressions();
+
+    inline Csm::ICubismModelSetting* GetModelSetting() { return this->_modelSetting; }
+
 protected:
     /**
      *  @brief  モデルを描画する処理。モデルを描画する空間のView-Projection行列を渡す。

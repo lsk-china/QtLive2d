@@ -132,9 +132,11 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
     if (_modelSetting->GetExpressionCount() > 0)
     {
         const csmInt32 count = _modelSetting->GetExpressionCount();
+        std::cout << "total " << count << " expressions: " << endl;
         for (csmInt32 i = 0; i < count; i++)
         {
             csmString name = _modelSetting->GetExpressionName(i);
+            std::cout << name.GetRawString() << std::endl;
             csmString path = _modelSetting->GetExpressionFileName(i);
             path = _modelHomeDir + path;
 
@@ -631,4 +633,12 @@ void LAppModel::MotionEventFired(const csmString& eventValue)
 Csm::Rendering::CubismOffscreenFrame_OpenGLES2& LAppModel::GetRenderBuffer()
 {
     return _renderBuffer;
+}
+
+Csm::csmMap<Csm::csmString, Csm::ACubismMotion*> LAppModel::getExpressions() {
+    return _expressions;
+}
+
+Csm::csmMap<Csm::csmString, Csm::ACubismMotion*> LAppModel::getMotions() {
+    return _motions;
 }

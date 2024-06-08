@@ -17,6 +17,7 @@
 #include "LAppDelegate.hpp"
 #include "LAppModel.hpp"
 #include "LAppView.hpp"
+#include <CubismModelSettingJson.hpp>
 
 using namespace Csm;
 using namespace LAppDefine;
@@ -131,7 +132,6 @@ void LAppLive2DManager::OnUpdate() const
     {
         CubismMatrix44 projection;
         LAppModel* model = GetModel(i);
-
         if (model->GetModel()->GetCanvasWidth() > 1.0f && width < height)
         {
             // 横に長いモデルを縦長ウィンドウに表示する際モデルの横サイズでscaleを算出する
@@ -226,6 +226,10 @@ void LAppLive2DManager::ChangeModel(std::string model, std::string resourceDir) 
     ReleaseAllModel();
     _models.PushBack(new LAppModel());
     _models[0]->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
+    LAppModel *appModel = _models[0];
+    Csm::ICubismModelSetting *setting = appModel->GetModelSetting();
+    csmInt32 expCount = setting->GetExpressionCount();
+    std::cout << "Expressions:" << expCount << std::endl;
     {
 #if defined(USE_RENDER_TARGET)
         // LAppViewの持つターゲットに描画を行う場合、こちらを選択

@@ -28,6 +28,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::initialized(QLive2dWidget *wid) {
+    wid->setResDir("/data/Live2dModels");
     wid->setModel("WY6");
     cout<<"Initialize finished";
 }

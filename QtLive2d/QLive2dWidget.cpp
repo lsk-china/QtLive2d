@@ -6,6 +6,7 @@
 #include <QTimer>
 #include "LAppDefine.hpp"
 #include "LAppLive2DManager.hpp"
+#include <QDebug>
 
 QLive2dWidget::QLive2dWidget(QWidget *parent):
     QOpenGLWidget(parent)
@@ -58,8 +59,9 @@ void QLive2dWidget::initializeGL()
     LAppLive2DManager::GetInstance();
     LAppDelegate::GetInstance()->_view->OnTouchesBegan(0, 0);
     this->initialized(this);
-//    this->setModel("WY6");
-
+    // For debug
+    this->setResDir("/data/Live2dModels/");
+    this->setModel("guiz");
 }
 void QLive2dWidget::resizeGL(int width, int height)
 {
