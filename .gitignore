@@ -4,3 +4,4 @@ Framework/build
 *.a
 *.so
 /Core/
+/cmake-build-debug/
