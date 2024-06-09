@@ -269,3 +269,7 @@ void LAppLive2DManager::SetViewMatrix(CubismMatrix44* m)
         _viewMatrix->GetArray()[i] = m->GetArray()[i];
     }
 }
+
+void LAppLive2DManager::SetExpression(const char * expressionId) {
+    this->_models[0]->SetExpression(expressionId);
+}

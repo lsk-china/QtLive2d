@@ -102,6 +102,8 @@ public:
 
     inline Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   GetExpressions() { return this->_expressions; }
 
+    void SetExpression(const char * expressionId);
+
 private:
     /**
     * @brief  コンストラクタ

@@ -119,8 +119,8 @@ void QLive2dWidget::mouseRelease(QPoint rel) {
     LAppDelegate::GetInstance()->rawMouseReleaseEvent(rel);
 }
 
-void QLive2dWidget::changeExpressions(QString name) {
-
+void QLive2dWidget::changeExpressions(const QString& name) {
+    LAppLive2DManager::GetInstance()->SetExpression(name.toStdString().c_str());
 }
 
 QList<QString> QLive2dWidget::getExpressions() {
