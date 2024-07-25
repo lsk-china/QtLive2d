@@ -6,7 +6,6 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_CXX_COMPILER /usr/bin/g++)
-set(CMAKE_BUILD_TYPE Debug)
 
 find_package(Qt5 COMPONENTS Core Gui OpenGL X11Extras REQUIRED)
 
