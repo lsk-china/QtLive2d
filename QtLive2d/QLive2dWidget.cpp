@@ -10,7 +10,8 @@
 #include <Motion/ACubismMotion.hpp>
 #include <Type/csmMap.hpp>
 
-Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   _expressions;
+LAppDelegate *appDelegateInstance = LAppDelegate::GetInstance();
+LAppLive2DManager *appLive2DManagerInstance = LAppLive2DManager::GetInstance();
 
 QLive2dWidget::QLive2dWidget(QWidget *parent):
     QOpenGLWidget(parent)
@@ -28,7 +29,7 @@ QLive2dWidget::QLive2dWidget(QWidget *parent):
     // the OpenGL in OpenGLWidget won't scale by HDPI setting, we need to scale manually.
     ratio = parent->devicePixelRatio();
     calcRatios();
-    LAppLive2DManager::GetInstance()->OnUpdate();
+    appLive2DManagerInstance->OnUpdate();
 }
 
 void QLive2dWidget::calcRatios() {
@@ -53,25 +54,24 @@ void QLive2dWidget::initializeGL()
     this->makeCurrent();
     OpenGLHelper::init(this->context());
 
-    LAppDelegate::GetInstance()->Initialize(this);
-    LAppDelegate::GetInstance()->Run();
+    appDelegateInstance->Initialize(this);
+    appDelegateInstance->Run();
 
     OpenGLHelper::get()->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     OpenGLHelper::get()->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     OpenGLHelper::get()->glEnable(GL_BLEND);
     OpenGLHelper::get()->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    LAppLive2DManager::GetInstance();
-    LAppDelegate::GetInstance()->_view->OnTouchesBegan(0, 0);
+    appDelegateInstance->_view->OnTouchesBegan(0, 0);
     this->initialized(this);
 }
 void QLive2dWidget::resizeGL(int width, int height)
 {
-    LAppDelegate::GetInstance()->Resize(width*ratio,height*ratio);
+    appDelegateInstance->Resize(width*ratio,height*ratio);
 }
 
 void QLive2dWidget::paintGL()
 {
-    LAppDelegate::GetInstance()->Run();
+    appDelegateInstance->Run();
 }
 
 void QLive2dWidget::clear()
@@ -89,44 +89,47 @@ void QLive2dWidget::updateMotions()
 }
 
 void QLive2dWidget::mouseMove(QPoint rel) {
-    LAppDelegate::GetInstance()->rawMouseMoveEvent(rel);
+    appDelegateInstance->rawMouseMoveEvent(rel);
 }
 
 void QLive2dWidget::setModel(string model) {
     this->clear();
-    LAppLive2DManager::GetInstance()->ChangeModel(model, this->resourceDir);
-    _expressions = LAppLive2DManager::GetInstance()->GetExpressions();
-    LAppLive2DManager::GetInstance()->OnUpdate();
-    LAppDelegate::GetInstance()->Run();
+    appLive2DManagerInstance->ChangeModel(model, this->resourceDir);
+    appLive2DManagerInstance->OnUpdate();
+    appDelegateInstance->Run();
 }
 void QLive2dWidget::setResDir(string resDir) {
     this->resourceDir = resDir;
 }
 
 void QLive2dWidget::mouseMoveEvent(QMouseEvent * event){
-    LAppDelegate::GetInstance()->mouseMoveEvent(event);
+    appDelegateInstance->mouseMoveEvent(event);
 }
 void QLive2dWidget::mousePressEvent(QMouseEvent * event){
-    LAppDelegate::GetInstance()->mousePressEvent(event);
+    appDelegateInstance->mousePressEvent(event);
 }
 void QLive2dWidget::mouseReleaseEvent(QMouseEvent * event){
-    LAppDelegate::GetInstance()->mouseReleaseEvent(event);
+    appDelegateInstance->mouseReleaseEvent(event);
 }
 void QLive2dWidget::mousePress(QPoint rel) {
-    LAppDelegate::GetInstance()->rawMousePressEvent(rel);
+    appDelegateInstance->rawMousePressEvent(rel);
 }
 void QLive2dWidget::mouseRelease(QPoint rel) {
-    LAppDelegate::GetInstance()->rawMouseReleaseEvent(rel);
+    appDelegateInstance->rawMouseReleaseEvent(rel);
 }
 
-void QLive2dWidget::changeExpressions(const QString& name) {
-    LAppLive2DManager::GetInstance()->SetExpression(name.toStdString().c_str());
+void QLive2dWidget::changeExpression(const QString& name) {
+    appLive2DManagerInstance->SetExpression(name.toStdString().c_str());
+    appLive2DManagerInstance->OnUpdate();
 }
 
 QList<QString> QLive2dWidget::getExpressions() {
     QList<QString> result;
-    for (int i = 0; i < _expressions.GetSize(); i++) {
-        result.push_back(QString(_expressions.get(i).First.GetRawString()));
+//    for (int i = 0; i < LAppLive2DManager::GetInstance()->GetExpressionCount(); i++) {
+//        result.push_back(QString(LAppLive2DManager::GetInstance()->GetExpressions().get(i).First.GetRawString()));
+//    }
+    for (auto entry : appLive2DManagerInstance->GetExpressionNames()) {
+        result.push_back(QString::fromStdString(entry));
     }
     return result;
 }

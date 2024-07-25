@@ -30,6 +30,8 @@ MainWindow::~MainWindow() {
 void MainWindow::initialized(QLive2dWidget *wid) {
     wid->setResDir("/data/Live2dModels/");
     wid->setModel("guiz");
+    qDebug() << wid->getExpressions();
+    wid->changeExpression(wid->getExpressions()[1]);
     cout<<"Initialize finished";
 }
 

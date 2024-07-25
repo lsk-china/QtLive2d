@@ -15,6 +15,8 @@
 
 #include "LAppWavFileHandler.hpp"
 
+#include <map>
+
 /**
  * @brief ユーザーが実際に使用するモデルの実装クラス<br>
  *         モデル生成、機能コンポーネント生成、更新処理とレンダリングの呼び出しを行う。

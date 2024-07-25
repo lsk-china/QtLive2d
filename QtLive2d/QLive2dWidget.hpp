@@ -26,7 +26,7 @@ public:
     void mousePress(QPoint rel);
     void mouseRelease(QPoint rel);
     QList<QString> getExpressions();
-    void changeExpressions(const QString& name);
+    void changeExpression(const QString& name);
 
     inline static float ratio;
     inline static float ratio_x = 1;

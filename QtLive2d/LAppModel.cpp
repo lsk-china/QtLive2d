@@ -181,9 +181,8 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
             if (entry.path().string().ends_with(".exp3.json")) {
                 std::string filePath = entry.path().string();
                 std::string name1 = filePath.substr(0, filePath.find_first_of('.'));
-                csmString name = name1.substr(name1.find_last_of('/') + 1, name1.size() - 1).c_str();
-                csmString path = filePath.c_str();
-                buffer = CreateBuffer(path.GetRawString(), &size);
+                csmString name = csmString(name1.substr(name1.find_last_of('/') + 1, name1.size() - 1).c_str());
+                buffer = CreateBuffer(filePath.c_str(), &size);
                 ACubismMotion* motion = LoadExpression(buffer, size, name.GetRawString());
 
                 if (_expressions[name] != NULL)
@@ -193,7 +192,7 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
                 }
                 _expressions[name] = motion;
 
-                DeleteBuffer(buffer, path.GetRawString());
+                DeleteBuffer(buffer, filePath.c_str());
             }
         }
     }
@@ -681,8 +680,4 @@ Csm::Rendering::CubismOffscreenFrame_OpenGLES2& LAppModel::GetRenderBuffer()
 
 Csm::csmMap<Csm::csmString, Csm::ACubismMotion*> LAppModel::getExpressions() {
     return _expressions;
-}
-
-Csm::csmMap<Csm::csmString, Csm::ACubismMotion*> LAppModel::getMotions() {
-    return _motions;
 }

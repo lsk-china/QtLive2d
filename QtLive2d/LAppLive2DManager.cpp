@@ -273,3 +273,18 @@ void LAppLive2DManager::SetViewMatrix(CubismMatrix44* m)
 void LAppLive2DManager::SetExpression(const char * expressionId) {
     this->_models[0]->SetExpression(expressionId);
 }
+
+int LAppLive2DManager::GetExpressionCount() {
+    return this->_models[0]->getExpressionCount();
+}
+
+std::vector<std::string> LAppLive2DManager::GetExpressionNames() {
+    Csm::csmMap<Csm::csmString, Csm::ACubismMotion*> expressions = this->_models[0]->getExpressions();
+    std::vector<std::string> result;
+    for (auto i = expressions.Begin(); i != expressions.End(); i++) {
+        if (i->First != nullptr && i->First.GetRawString() != nullptr)
+            result.push_back(std::string(i->First.GetRawString()));
+    }
+    return result;
+}
+

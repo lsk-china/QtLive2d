@@ -13,6 +13,7 @@
 #include <string>
 #include <Motion/ACubismMotion.hpp>
 #include "Type/csmMap.hpp"
+#include <vector>
 
 class LAppModel;
 
@@ -100,9 +101,11 @@ public:
 
     void ChangeModel(std::string model, std::string resourcePath);
 
-    inline Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   GetExpressions() { return this->_expressions; }
+    std::vector<std::string> GetExpressionNames();
 
     void SetExpression(const char * expressionId);
+
+    int GetExpressionCount();
 
 private:
     /**
