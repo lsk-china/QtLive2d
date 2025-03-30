@@ -66,7 +66,7 @@ LAppModel::LAppModel()
 
 LAppModel::~LAppModel()
 {
-    _renderBuffer.DestroyOffscreenFrame();
+    _renderBuffer.DestroyOffscreenSurface();
 
     ReleaseMotions();
     ReleaseExpressions();
@@ -158,7 +158,7 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
     std::string expDir = std::string(_modelHomeDir.GetRawString()) + "exp/";
     if (std::filesystem::exists(expDir) && std::filesystem::is_directory(expDir)) {
         for (const auto &entry : std::filesystem::directory_iterator(expDir)) {
-            if (entry.path().string().ends_with(".exp3.json")) {
+            if (ends_with(entry.path().string(), ".exp3.json")) {
                 std::string filePath = entry.path().string();
                 std::string name1 = filePath.substr(0, filePath.find_first_of('.'));
                 csmString name = name1.substr(name1.find_last_of('/') + 1, name1.size() - 1).c_str();
@@ -178,7 +178,7 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
         }
     } else {
         for (const auto &entry : std::filesystem::directory_iterator(std::string(_modelHomeDir.GetRawString()))) {
-            if (entry.path().string().ends_with(".exp3.json")) {
+            if (ends_with(entry.path().string(), ".exp3.json")) {
                 std::string filePath = entry.path().string();
                 std::string name1 = filePath.substr(0, filePath.find_first_of('.'));
                 csmString name = csmString(name1.substr(name1.find_last_of('/') + 1, name1.size() - 1).c_str());
@@ -673,7 +673,7 @@ void LAppModel::MotionEventFired(const csmString& eventValue)
     CubismLogInfo("%s is fired on LAppModel!!", eventValue.GetRawString());
 }
 
-Csm::Rendering::CubismOffscreenFrame_OpenGLES2& LAppModel::GetRenderBuffer()
+Csm::Rendering::CubismOffscreenSurface_OpenGLES2& LAppModel::GetRenderBuffer()
 {
     return _renderBuffer;
 }

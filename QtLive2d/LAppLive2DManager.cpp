@@ -279,12 +279,13 @@ int LAppLive2DManager::GetExpressionCount() {
 }
 
 std::vector<std::string> LAppLive2DManager::GetExpressionNames() {
-    Csm::csmMap<Csm::csmString, Csm::ACubismMotion*> expressions = this->_models[0]->getExpressions();
-    std::vector<std::string> result;
-    for (auto i = expressions.Begin(); i != expressions.End(); i++) {
-        if (i->First != nullptr && i->First.GetRawString() != nullptr)
-            result.push_back(std::string(i->First.GetRawString()));
-    }
-    return result;
+    // Csm::csmMap<Csm::csmString, Csm::ACubismMotion*> expressions = this->_models[0]->getExpressions();
+    // std::vector<std::string> result;
+    // for (auto i = expressions.Begin(); i != expressions.End(); i++) {
+    //     if (i->First != NULL && i->First.GetRawString() != NULL)
+    //         result.push_back(std::string(i->First.GetRawString()));
+    // }
+    // return result;
+    return {};
 }
 

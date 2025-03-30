@@ -17,6 +17,21 @@
 
 #include <map>
 
+#if __cplusplus >= 201703L // C++17 and later
+#include <string_view>
+
+static bool ends_with(std::string_view str, std::string_view suffix)
+{
+    return str.size() >= suffix.size() && str.compare(str.size()-suffix.size(), suffix.size(), suffix) == 0;
+}
+
+static bool starts_with(std::string_view str, std::string_view prefix)
+{
+    return str.size() >= prefix.size() && str.compare(0, prefix.size(), prefix) == 0;
+}
+#endif // C++17
+
+
 /**
  * @brief ユーザーが実際に使用するモデルの実装クラス<br>
  *         モデル生成、機能コンポーネント生成、更新処理とレンダリングの呼び出しを行う。
@@ -114,7 +129,7 @@ public:
     /**
      * @brief   別ターゲットに描画する際に使用するバッファの取得
      */
-    Csm::Rendering::CubismOffscreenFrame_OpenGLES2& GetRenderBuffer();
+    Csm::Rendering::CubismOffscreenSurface_OpenGLES2& GetRenderBuffer();
 
     Csm::csmMap<Csm::csmString, Csm::ACubismMotion*> getExpressions();
 
@@ -193,7 +208,7 @@ private:
 
     LAppWavFileHandler _wavFileHandler; ///< wavファイルハンドラ
 
-    Csm::Rendering::CubismOffscreenFrame_OpenGLES2  _renderBuffer;   ///< フレームバッファ以外の描画先
+    Csm::Rendering::CubismOffscreenSurface_OpenGLES2  _renderBuffer;   ///< フレームバッファ以外の描画先
 };
 
 
