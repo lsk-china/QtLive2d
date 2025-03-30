@@ -54,6 +54,20 @@ set(PROJECT_SOURCES
         QtLive2d/TouchManager.cpp
 )
 
+add_library(${PROJECT_NAME} SHARED ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+target_link_libraries(${PROJECT_NAME}
+        Qt5::Core
+        Qt5::Gui
+        Qt5::X11Extras
+        Qt5::OpenGL
+        -lX11
+        -lXext
+        -lGL
+        -lFramework
+        -lLive2DCubismCore
+        -L.
+)
+
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
     add_executable(MainWindow ${PROJECT_SOURCES} test/main.cpp test/MainWindow.cpp test/mouseEventThread.cpp test/MainWindow.h test/mouseEventThread.h)
     target_link_libraries(MainWindow
@@ -64,7 +78,6 @@ if (CMAKE_BUILD_TYPE STREQUAL Debug)
             -lX11
             -lXext
             -lXtst
-            -lLive2dWidget
             -lGL
             -lFramework
             -lLive2DCubismCore
@@ -72,17 +85,3 @@ if (CMAKE_BUILD_TYPE STREQUAL Debug)
     )
 endif ()
 
-add_library(${PROJECT_NAME} STATIC ${PROJECT_SOURCES} ${PROJECT_HEADERS})
-target_link_libraries(${PROJECT_NAME}
-        Qt5::Core
-        Qt5::Gui
-        Qt5::X11Extras
-        Qt5::OpenGL
-        -lX11
-        -lXext
-        -lLive2dWidget
-        -lGL
-        -lFramework
-        -lLive2DCubismCore
-        -L.
-)
